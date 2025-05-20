@@ -30,40 +30,5 @@
           v.src = "https://cdn.voiceflow.com/widget-next/bundle.mjs"; v.type = "text/javascript"; s.parentNode.insertBefore(v, s);
       })(document, 'script');
     </script>
-    
-    <script type="module">
-      import { MultipleChoice } from './ex_multiplechoice.js';
-      import { RatingSlider } from './ex_ratingslider.js';
-      import { SortableList } from './ex_sortablelist.js';
-      import { ImageGenerator } from './ex_imagegeneration.js';
-
-      (function (d, t) {
-        var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
-        v.onload = function () {
-          window.voiceflow.chat.load({
-            verify: { projectID: '67aa9de7f1b2f4adafba5a03' },
-            url: 'https://general-runtime.voiceflow.com',
-            versionID: 'production',
-            render: {
-              mode: 'embedded',
-              target: document.getElementById('voiceflow-chat-frame'),
-            },
-            autostart: true,
-            allowDangerousHTML: true,
-            assistant: {
-              extensions: [
-                MultipleChoice, RatingSlider, SortableList, ImageGenerator,
-              ],
-              title: 'ARTM Agent',
-              persistence: 'memory', //'sessionStorage',
-              image: 'https://cm4-production-assets.s3.amazonaws.com/1734132070582-chat-bot-logo-design-virtual-assistant-icon-vector-42176399.jpg',
-              avatar: 'https://cm4-production-assets.s3.amazonaws.com/1734132070582-chat-bot-logo-design-virtual-assistant-icon-vector-42176399.jpg',
-              description: 'Hi!',
-          },
-          });
-        };
-        v.src = 'https://cdn.voiceflow.com/widget/bundle.mjs'; v.type = 'text/javascript'; s.parentNode.insertBefore(v, s);
-      })(document, 'script');
-    </script>
   </body>
 </html>
