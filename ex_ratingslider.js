@@ -6,19 +6,35 @@ export const RatingSlider = {
 
   render: ({ trace, element }) => {
     try {
-      let { options: optionsStr, submitEvent } = trace.payload;
+      let { options, submitEvent } = trace.payload;
 
       // 输入验证
-      if (!optionsStr || !submitEvent) {
+      if (!options || !submitEvent) {
         throw new Error("Missing required parameters");
       }
 
-      // 解析 options 字符串为对象映射
+      // 预处理：去除首尾可能的引号和空白
+      let raw = options;
+      if (typeof raw === 'string') {
+        raw = raw.trim().replace(/^[‘’“”"'`]+|[‘’“”"'`]+$/g, '');
+      }
+
+      // 解析 options 字符串为对象映射，支持双重 JSON 编码
       let mapping;
       try {
-        mapping = JSON.parse(optionsStr);
+        if (typeof raw === 'string') {
+          let parsed = JSON.parse(raw);
+          if (typeof parsed === 'string') {
+            parsed = JSON.parse(parsed);
+          }
+          mapping = parsed;
+        } else if (typeof raw === 'object') {
+          mapping = raw;
+        } else {
+          throw new Error();
+        }
       } catch (err) {
-        throw new Error("Options must be a valid JSON string");
+        throw new Error("Options must be a valid JSON string or object");
       }
 
       const optionKeys = Object.keys(mapping);
@@ -30,7 +46,7 @@ export const RatingSlider = {
       const container = document.createElement('div');
       container.className = 'rating-slider-container';
 
-      // 样式定义（同原样式，可省略此处复写）
+      // 样式定义
       const style = document.createElement('style');
       style.textContent = `
         .rating-slider-container { width: 100%; padding: 1rem; box-sizing: border-box; gap: 10px; font-family: -apple-system, sans-serif; }
@@ -82,7 +98,6 @@ export const RatingSlider = {
 
         const scaleLabels = document.createElement('div');
         scaleLabels.className = 'scale-labels';
-        // 仅显示首尾刻度
         ['0', String(maxVal)].forEach((txt, idx) => {
           const sp = document.createElement('span');
           sp.className = 'scale-label';
@@ -95,7 +110,6 @@ export const RatingSlider = {
         const valueDisplay = document.createElement('div');
         valueDisplay.className = 'value-display';
 
-        // 仅针对 Others 选项展示输入框
         const otherInput = document.createElement('input');
         otherInput.type = 'text';
         otherInput.placeholder = '请说明';
@@ -165,4 +179,5 @@ export const RatingSlider = {
     }
   }
 };
+
 
