@@ -2,7 +2,7 @@ export const RatingSlider = {
   name: 'RatingSlider',
   type: 'response',
   match: ({ trace }) =>
-    trace.type === 'rating_slider' || trace.payload.name === 'rating_slider',
+    trace.type === 'rating_slider' || trace.payload?.name === 'rating_slider',
 
   render: ({ trace, element }) => {
     try {
