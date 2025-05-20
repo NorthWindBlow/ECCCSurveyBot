@@ -12,7 +12,7 @@ export const MultipleChoice = {
       try {
         options = JSON.parse(options);
       } catch (err) {
-        throw new Error(Invalid JSON for options: ${err.message});
+        throw new Error("Invalid JSON for options: ${err.message}");
       }
 
       if (!Array.isArray(options) || options.length === 0 || !submitEvent) {
