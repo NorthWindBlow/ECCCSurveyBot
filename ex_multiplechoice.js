@@ -8,6 +8,13 @@ export const MultipleChoice = {
     try {
       let { options, selectionLimit = 999, submitEvent } = trace.payload;
 
+      // 把 options 字符串解析成真正的数组
+      try {
+        options = JSON.parse(options);
+      } catch (err) {
+        throw new Error(`Invalid JSON for options: ${err.message}`);
+      }
+
       if (!Array.isArray(options) || options.length === 0 || !submitEvent) {
         throw new Error("Missing required input variables: options (non-empty array) or submitEvent");
       }
