@@ -2,7 +2,7 @@ export const MultipleChoice = {
   name: 'MultipleChoice',
   type: 'response',
   match: ({ trace }) =>
-    trace.type === 'multiple_choice' || trace.payload.name === 'multiple_choice',
+    trace.type === 'multiple_choice' || trace.payload?.name === 'multiple_choice',
 
   render: ({ trace, element }) => {
     try {
