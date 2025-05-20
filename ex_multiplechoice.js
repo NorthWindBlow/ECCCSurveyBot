@@ -160,10 +160,13 @@ export const MultipleChoice = {
           if (input.checked) {
             // Add to selection order
             selectedOrder.push(option);
+
             // If over limit, remove oldest selection
             if (selectedOrder.length > selectionLimit) {
               const oldest = selectedOrder.shift();
-              const oldestInput = form.querySelector(\`input[value="\${oldest}"]\`);
+              // —— 修改点 ——: 不再用 querySelector 属性选择器，而是遍历所有 input
+              const allInputs = Array.from(form.querySelectorAll('input[name="option"]'));
+              const oldestInput = allInputs.find(i => i.value === oldest);
               if (oldestInput) {
                 oldestInput.checked = false;
                 oldestInput.parentElement.classList.remove('selected');
