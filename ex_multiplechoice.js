@@ -6,14 +6,60 @@ export const MultipleChoice = {
 
   render: ({ trace, element }) => {
     try {
-      let { options, selectionLimit = 999, submitEvent } = trace.payload;
+      let { options: rawOptions, selectionLimit = 999, submitEvent } = trace.payload;
+
+      function parseOptions(rawOptions) {
+        if (Array.isArray(rawOptions)) {
+          return rawOptions;
+        }
+        if (typeof rawOptions !== 'string') {
+          throw new Error(`options must be an Array or string, but got ${typeof rawOptions}`);
+        }
+      
+        // 1) trim and strip any wrapping quotes
+        let s = rawOptions.trim();
+        if (/^['"`‘’“”`].*['"`‘’“”`]$/.test(s)) {
+          s = s.slice(1, -1).trim();
+        }
+      
+        // 2) normalize all “smart” quotes to plain ones
+        //   Double quotes: U+201C U+201D U+201F U+FF02
+        //   Single quotes: U+2018 U+2019 U+201A U+201B U+FF07
+        s = s
+          .replace(/[\u201C\u201D\u201F\uFF02]/g, '"')
+          .replace(/[\u2018\u2019\u201A\u201B\uFF07]/g, "'");
+      
+        // 3) convert any single-quoted JSON to double-quoted
+        //    'foo' → "foo"
+        s = s.replace(/'([^']*)'/g, '"$1"');
+      
+        // now s should look like: ["Under 18","18-24",...]
+        let parsed;
+        try {
+          parsed = JSON.parse(s);
+        } catch (err1) {
+          throw new Error(`Invalid JSON for options after normalization: ${err1.message}`);
+        }
+      
+        // 4) if you get back another string, parse again
+        if (typeof parsed === 'string') {
+          try {
+            parsed = JSON.parse(parsed);
+          } catch (err2) {
+            throw new Error(`Invalid JSON for options on second pass: ${err2.message}`);
+          }
+        }
+      
+        // finally, ensure it’s an array
+        if (!Array.isArray(parsed)) {
+          throw new Error(`Parsed options is not an array: ${typeof parsed}`);
+        }
+      
+        return parsed;
+      }
 
       // 把 options 字符串解析成真正的数组
-      try {
-        options = JSON.parse(options);
-      } catch (err) {
-        throw new Error(`Invalid JSON for options: ${err.message}`);
-      }
+      let options = parseOptions(rawOptions);
 
       if (!Array.isArray(options) || options.length === 0 || !submitEvent) {
         throw new Error("Missing required input variables: options (non-empty array) or submitEvent");
