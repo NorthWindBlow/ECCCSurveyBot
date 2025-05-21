@@ -108,7 +108,7 @@ export const TableChoice = {
         // 发送结果
         window.voiceflow.chat.interact({
           type: submitEvent,
-          payload: { result, confirmation: 'TableChoice submitted successfully' }
+          payload: { result: result, confirmation: 'TableChoice submitted successfully' }
         });
         // 禁用交互
         container.querySelectorAll('td, button').forEach(el => el.disabled = true);
