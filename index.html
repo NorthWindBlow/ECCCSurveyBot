@@ -7,6 +7,7 @@
     <script type="module">
       import { MultipleChoice } from './ex_multiplechoice.js';
       import { RatingSlider } from './ex_ratingslider.js';
+      import { TableChoice } from './ex_tablechoice.js';
 
       (function(d, t) {
           var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
@@ -20,7 +21,7 @@
               },
               assistant: {
                   extensions: [
-                    MultipleChoice, RatingSlider,
+                    MultipleChoice, RatingSlider, TableChoice,
                   ],
               },
             });
