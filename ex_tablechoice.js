@@ -3,7 +3,7 @@ export const TableChoice = {
   type: 'response',
   match: ({ trace }) =>
     trace.type === 'table_choice' || trace.payload?.name === 'table_choice',
-
+  
   render: ({ trace, element }) => {
     try {
       let { options, submitEvent } = trace.payload;
