@@ -272,7 +272,7 @@ export const MultipleChoice = {
         window.voiceflow.chat.interact({
           type: submitEvent,
           payload: {
-            selectedOptions,
+            result: selectedOptions,
             confirmation: 'Options submitted successfully'
           }
         });
