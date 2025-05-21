@@ -265,8 +265,6 @@ export const MultipleChoice = {
           return;
         }
 
-        let results = selectedOptions;
-
         form.querySelectorAll('input, button').forEach(el => el.disabled = true);
         submitButton.textContent = 'Submitted';
         container.classList.add("submitted");
@@ -274,7 +272,7 @@ export const MultipleChoice = {
         window.voiceflow.chat.interact({
           type: submitEvent,
           payload: {
-            results,
+            selectedOptions,
             confirmation: 'Options submitted successfully'
           }
         });
