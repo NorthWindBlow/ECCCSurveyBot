@@ -9,7 +9,11 @@ export const TableChoice = {
       let { options, submitEvent } = trace.payload;
 
       if (!options || !submitEvent) {
-        throw new Error("Missing required parameters: options or submitEvent");
+        throw new Error(
+          `Missing required parameter${!options ? ' options' : ''}${
+            !options && !submitEvent ? ' and' : ''
+          }${!submitEvent ? ' submitEvent' : ''}`
+        );
       }
 
       // 去除首尾引号与空白，并解析 JSON（支持双重编码）
