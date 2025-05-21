@@ -12,7 +12,7 @@ export const TableChoice = {
         throw new Error(
           `Missing required parameter${!options ? ' options' : ''}${
             !options && !submitEvent ? ' and' : ''
-          }${!submitEvent ? ' submitEvent' : ''}${trace.payload}`
+          }${!submitEvent ? ' submitEvent' : ''}`
         );
       }
 
