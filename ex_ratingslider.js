@@ -159,7 +159,7 @@ export const RatingSlider = {
 
         window.voiceflow.chat.interact({
           type: submitEvent,
-          payload: { ratings: results, confirmation: 'Options submitted successfully' }
+          payload: { result: results, confirmation: 'Options submitted successfully' }
         });
 
         container.querySelectorAll('input, button').forEach(el => el.disabled = true);
