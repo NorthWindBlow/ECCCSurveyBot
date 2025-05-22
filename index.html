@@ -9,6 +9,7 @@
       import { MultipleChoice } from './ex_multiplechoice.js';
       import { RatingSlider } from './ex_ratingslider.js';
       import { TableChoice } from './ex_tablechoice.js';
+      import { DisableInputExtension } from './ex_disableinput.js';
 
       (function(d, t) {
           var v = d.createElement(t), s = d.getElementsByTagName(t)[0];
@@ -22,7 +23,7 @@
               },
               assistant: {
                   extensions: [
-                    MultipleChoice, RatingSlider, TableChoice,
+                    MultipleChoice, RatingSlider, TableChoice, DisableInputExtension,
                   ],
               },
             });
