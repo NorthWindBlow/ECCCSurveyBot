@@ -186,7 +186,7 @@ export const RatingSlider = {
           valueDisplay.textContent = mappedVal;
           slider.value = positions[idx];
 
-          if (/other/i.test(option) && mappedVal > 0) {
+          if (option.trim().toLowerCase() === 'other' && mappedVal > 0) {
             otherInput.style.display = 'block';
           } else {
             otherInput.style.display = 'none';
@@ -222,7 +222,7 @@ export const RatingSlider = {
           const actualValue = scaleLabels[idx];
 
           const entry = { option: opt, score: actualValue };
-          if (/other/i.test(opt) && actualValue > 0) {
+          if (opt.trim().toLowerCase() === 'other' && actualValue > 0) {
             entry.detail = row.querySelector('.other-input').value || '';
           }
           return entry;
