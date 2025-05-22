@@ -43,7 +43,7 @@ export const RatingSlider = {
       style.textContent = `
         .rating-slider-container {
           width: 100%;
-          padding: 0.75rem 0.5rem;
+          padding: 0.2rem 0.5rem;
           box-sizing: border-box;
           font-family: -apple-system, sans-serif;
           font-size: 0.9em;
@@ -73,7 +73,7 @@ export const RatingSlider = {
           display: flex;
           justify-content: space-between;
           margin-bottom: 2px;
-          font-size: 0.85em;
+          font-size: 0.9em;
           color: #666;
         }
         
@@ -105,7 +105,7 @@ export const RatingSlider = {
         
         .other-input {
           margin-top: 0.5rem;
-          padding: 0.3rem 0.6rem;
+          padding: 0.2rem 0.6rem;
           border: 1px solid #ccc;
           border-radius: 4px;
           width: 100%;
@@ -133,7 +133,7 @@ export const RatingSlider = {
         
         @media (max-width: 600px) {
           .option-label, .other-input, .value-display {
-            font-size: 0.85em;
+            font-size: 0.9em;
           }
         }
       `;
