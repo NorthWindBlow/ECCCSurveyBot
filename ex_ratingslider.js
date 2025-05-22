@@ -8,32 +8,26 @@ export const RatingSlider = {
     try {
       let { options, submitEvent } = trace.payload;
 
-      // 输入验证
       if (!options || !submitEvent) {
         throw new Error("Missing required parameters");
       }
 
-      // 预处理：去除首尾可能的引号和空白
-      let raw = options;
-      if (typeof raw === 'string') {
-        raw = raw.trim().replace(/^[‘’“”"'`]+|[‘’“”"'`]+$/g, '');
-      }
+      let raw = typeof options === 'string'
+        ? options.trim().replace(/^[‘’“”"'`]+|[‘’“”"'`]+$/g, '')
+        : options;
 
-      // 解析 options 字符串为对象映射，支持双重 JSON 编码
       let mapping;
       try {
         if (typeof raw === 'string') {
           let parsed = JSON.parse(raw);
-          if (typeof parsed === 'string') {
-            parsed = JSON.parse(parsed);
-          }
+          if (typeof parsed === 'string') parsed = JSON.parse(parsed);
           mapping = parsed;
         } else if (typeof raw === 'object') {
           mapping = raw;
         } else {
           throw new Error();
         }
-      } catch (err) {
+      } catch {
         throw new Error("Options must be a valid JSON string or object");
       }
 
@@ -42,43 +36,74 @@ export const RatingSlider = {
         throw new Error("No options found in payload");
       }
 
-      // 创建容器
       const container = document.createElement('div');
       container.className = 'rating-slider-container';
 
-      // 样式定义
       const style = document.createElement('style');
       style.textContent = `
-        .rating-slider-container { width: 100%; padding: 1rem; box-sizing: border-box; gap: 10px; font-family: -apple-system, sans-serif; }
-        .option-row { display: flex; align-items: center; margin: 2rem 0; position: relative; width: 100%; }
-        .option-label { flex: 0 0 auto; margin-right: 1rem; font-weight: 500; color: #333; width: 180px; word-break: break-word; }
-        .slider-container { flex: 1; position: relative; height: 30px; }
-        .scale-labels { display: flex; justify-content: space-between; position: absolute; width: 100%; top: -20px; pointer-events: none; }
-        .scale-label { position: absolute; transform: translateX(-50%); font-size: 0.85em; color: #666; white-space: nowrap; top: 10px; }
-        input[type="range"] { -webkit-appearance: none; width: 100%; height: 4px; background: #ddd; border-radius: 2px; margin: 15px 0; outline: none; }
-        input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: #007AFF; border-radius: 50%; cursor: pointer; transition: transform 0.2s; }
-        .value-display { margin-left: 1rem; min-width: 60px; text-align: center; font-weight: 300; color: #007AFF; font-size: 1.1em; position: relative; top: -10px; }
-        .other-input { margin-left: 1rem; padding: 0.25rem 0.5rem; border: 1px solid #ccc; border-radius: 4px; display: none; }
-        .submit-btn { display: block; margin: 1rem auto; padding: 0.5rem 1.5rem; background: linear-gradient(135deg, #007AFF, #0063CC); color: #fff; border: none; border-radius: 8px; font-size: 1rem; cursor: pointer; transition: all 0.2s ease; }
-        .submit-btn:disabled { background: #999; cursor: not-allowed; }
-        .submit-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,122,255,0.3); }
+        .rating-slider-container {
+          width: 100%; padding: 1rem; box-sizing: border-box;
+          font-family: -apple-system, sans-serif;
+        }
+        .option-row {
+          display: flex; flex-direction: column;
+          margin: 2rem 0; width: 100%;
+        }
+        .option-label {
+          font-weight: 500; color: #333;
+          margin-bottom: 0.5rem; word-break: break-word;
+        }
+        .slider-container {
+          position: relative; width: 100%;
+        }
+        .scale-labels {
+          display: flex; justify-content: space-between;
+          margin-bottom: 4px; font-size: 0.85em; color: #666;
+        }
+        input[type="range"] {
+          -webkit-appearance: none; width: 100%; height: 4px;
+          background: #ddd; border-radius: 2px; outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+          -webkit-appearance: none; width: 16px; height: 16px;
+          background: #007AFF; border-radius: 50%; cursor: pointer;
+        }
+        .value-display {
+          text-align: center; font-weight: 400;
+          color: #007AFF; font-size: 1em; margin-top: 0.5rem;
+        }
+        .other-input {
+          margin-top: 0.5rem; padding: 0.4rem 0.6rem;
+          border: 1px solid #ccc; border-radius: 4px; width: 100%;
+          display: none; box-sizing: border-box;
+        }
+        .submit-btn {
+          display: block; margin: 2rem auto 1rem;
+          padding: 0.5rem 1.5rem; background: linear-gradient(135deg, #007AFF, #0063CC);
+          color: #fff; border: none; border-radius: 8px;
+          font-size: 1rem; cursor: pointer;
+        }
+        .submit-btn:disabled {
+          background: #999; cursor: not-allowed;
+        }
+        @media (max-width: 600px) {
+          .option-label, .other-input {
+            font-size: 0.95em;
+          }
+        }
       `;
       container.appendChild(style);
 
-      // 工具函数
-      const findNearestPosition = (value, positions) =>
-        positions.reduce((prev, curr) =>
-          Math.abs(curr - value) < Math.abs(prev - value) ? curr : prev
-        );
-      const getLabelIndex = (value, positions) => positions.indexOf(value);
+      const findNearestIndex = (val, positions) => {
+        return positions.reduce((prevIdx, curr, idx) => {
+          return Math.abs(curr - val) < Math.abs(positions[prevIdx] - val) ? idx : prevIdx;
+        }, 0);
+      };
 
-      // 创建每个选项的滑块行
       optionKeys.forEach(option => {
         const maxVal = parseInt(mapping[option], 10);
         const labels = Array.from({ length: maxVal + 1 }, (_, i) => i);
-        const positions = labels.map((_, i) =>
-          Math.round((i / (labels.length - 1)) * 100)
-        );
+        const positions = labels.map((_, i) => Math.round((i / (labels.length - 1)) * 100));
 
         const row = document.createElement('div');
         row.className = 'option-row';
@@ -90,22 +115,15 @@ export const RatingSlider = {
         const sliderContainer = document.createElement('div');
         sliderContainer.className = 'slider-container';
 
+        const scaleLabels = document.createElement('div');
+        scaleLabels.className = 'scale-labels';
+        scaleLabels.innerHTML = `<span>${labels[0]}</span><span>${labels[labels.length - 1]}</span>`;
+
         const slider = document.createElement('input');
         slider.type = 'range';
         slider.min = 0;
         slider.max = 100;
         slider.value = 0;
-
-        const scaleLabels = document.createElement('div');
-        scaleLabels.className = 'scale-labels';
-        ['0', String(maxVal)].forEach((txt, idx) => {
-          const sp = document.createElement('span');
-          sp.className = 'scale-label';
-          sp.textContent = txt;
-          sp.style.left = idx === 0 ? '0%' : '100%';
-          sp.style.transform = idx === 0 ? 'translateX(0)' : 'translateX(-100%)';
-          scaleLabels.appendChild(sp);
-        });
 
         const valueDisplay = document.createElement('div');
         valueDisplay.className = 'value-display';
@@ -116,14 +134,15 @@ export const RatingSlider = {
         otherInput.className = 'other-input';
 
         const updateDisplay = val => {
-          const nearest = findNearestPosition(parseInt(val, 10), positions);
-          const idx = getLabelIndex(nearest, positions);
-          valueDisplay.textContent = labels[idx];
-          slider.value = nearest;
+          const valInt = parseInt(val, 10);
+          const idx = findNearestIndex(valInt, positions);
+          const mappedVal = labels[idx];
+          valueDisplay.textContent = mappedVal;
+          slider.value = positions[idx];
 
-          if (/other/i.test(option) && labels[idx] > 0) {
-            otherInput.style.display = 'inline-block';
-          } else if (/other/i.test(option)) {
+          if (/other/i.test(option) && mappedVal > 0) {
+            otherInput.style.display = 'block';
+          } else {
             otherInput.style.display = 'none';
           }
         };
@@ -131,8 +150,8 @@ export const RatingSlider = {
         slider.addEventListener('input', e => updateDisplay(e.target.value));
         updateDisplay(slider.value);
 
-        sliderContainer.appendChild(slider);
         sliderContainer.appendChild(scaleLabels);
+        sliderContainer.appendChild(slider);
         sliderContainer.appendChild(valueDisplay);
         sliderContainer.appendChild(otherInput);
         row.appendChild(labelEl);
@@ -140,7 +159,6 @@ export const RatingSlider = {
         container.appendChild(row);
       });
 
-      // 提交按钮
       const submitButton = document.createElement('button');
       submitButton.className = 'submit-btn';
       submitButton.textContent = 'Submit';
@@ -149,9 +167,16 @@ export const RatingSlider = {
         e.preventDefault();
         const results = Array.from(container.querySelectorAll('.option-row')).map(row => {
           const opt = row.querySelector('.option-label').textContent;
-          const score = parseInt(row.querySelector('input[type="range"]').value, 10);
-          const entry = { option: opt, score, display: score };
-          if (/other/i.test(opt) && score > 0) {
+          const slider = row.querySelector('input[type="range"]');
+          const val = parseInt(slider.value, 10);
+
+          const scaleLabels = Array.from({ length: parseInt(mapping[opt], 10) + 1 }, (_, i) => i);
+          const positions = scaleLabels.map((_, i) => Math.round((i / (scaleLabels.length - 1)) * 100));
+          const idx = findNearestIndex(val, positions);
+          const actualValue = scaleLabels[idx];
+
+          const entry = { option: opt, score: actualValue };
+          if (/other/i.test(opt) && actualValue > 0) {
             entry.detail = row.querySelector('.other-input').value || '';
           }
           return entry;
@@ -168,7 +193,6 @@ export const RatingSlider = {
 
       container.appendChild(submitButton);
       element.appendChild(container);
-
       return () => container.remove();
     } catch (error) {
       console.error("RatingSlider Error:", error.message);
