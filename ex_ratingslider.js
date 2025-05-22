@@ -42,53 +42,98 @@ export const RatingSlider = {
       const style = document.createElement('style');
       style.textContent = `
         .rating-slider-container {
-          width: 100%; padding: 1rem; box-sizing: border-box;
+          width: 100%;
+          padding: 0.75rem 0.5rem;
+          box-sizing: border-box;
           font-family: -apple-system, sans-serif;
+          font-size: 0.9em;
         }
+        
         .option-row {
-          display: flex; flex-direction: column;
-          margin: 2rem 0; width: 100%;
+          display: flex;
+          flex-direction: column;
+          margin: 1.25rem 0;
+          width: 100%;
         }
+        
         .option-label {
-          font-weight: 500; color: #333;
-          margin-bottom: 0.5rem; word-break: break-word;
+          font-weight: 500;
+          color: #333;
+          margin-bottom: 0.25rem;
+          word-break: break-word;
+          font-size: 0.9em;
         }
+        
         .slider-container {
-          position: relative; width: 100%;
+          position: relative;
+          width: 100%;
         }
+        
         .scale-labels {
-          display: flex; justify-content: space-between;
-          margin-bottom: 4px; font-size: 0.85em; color: #666;
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 2px;
+          font-size: 0.85em;
+          color: #666;
         }
+        
         input[type="range"] {
-          -webkit-appearance: none; width: 100%; height: 4px;
-          background: #ddd; border-radius: 2px; outline: none;
+          -webkit-appearance: none;
+          width: 100%;
+          height: 3px;
+          background: #ddd;
+          border-radius: 2px;
+          outline: none;
         }
+        
         input[type="range"]::-webkit-slider-thumb {
-          -webkit-appearance: none; width: 16px; height: 16px;
-          background: #007AFF; border-radius: 50%; cursor: pointer;
+          -webkit-appearance: none;
+          width: 14px;
+          height: 14px;
+          background: #007AFF;
+          border-radius: 50%;
+          cursor: pointer;
         }
+        
         .value-display {
-          text-align: center; font-weight: 400;
-          color: #007AFF; font-size: 1em; margin-top: 0.5rem;
+          text-align: center;
+          font-weight: 400;
+          color: #007AFF;
+          font-size: 0.9em;
+          margin-top: 0.25rem;
         }
+        
         .other-input {
-          margin-top: 0.5rem; padding: 0.4rem 0.6rem;
-          border: 1px solid #ccc; border-radius: 4px; width: 100%;
-          display: none; box-sizing: border-box;
+          margin-top: 0.5rem;
+          padding: 0.3rem 0.6rem;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          width: 100%;
+          display: none;
+          box-sizing: border-box;
+          font-size: 0.9em;
         }
+        
         .submit-btn {
-          display: block; margin: 2rem auto 1rem;
-          padding: 0.5rem 1.5rem; background: linear-gradient(135deg, #007AFF, #0063CC);
-          color: #fff; border: none; border-radius: 8px;
-          font-size: 1rem; cursor: pointer;
+          display: block;
+          margin: 1.5rem auto 0.75rem;
+          padding: 0.4rem 1.2rem;
+          background: linear-gradient(135deg, #007AFF, #0063CC);
+          color: #fff;
+          border: none;
+          border-radius: 6px;
+          font-size: 0.95em;
+          cursor: pointer;
         }
+        
         .submit-btn:disabled {
-          background: #999; cursor: not-allowed;
+          background: #999;
+          cursor: not-allowed;
         }
+        
         @media (max-width: 600px) {
-          .option-label, .other-input {
-            font-size: 0.95em;
+          .option-label, .other-input, .value-display {
+            font-size: 0.85em;
           }
         }
       `;
