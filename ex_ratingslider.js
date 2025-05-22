@@ -52,14 +52,14 @@ export const RatingSlider = {
         .option-row {
           display: flex;
           flex-direction: column;
-          margin: 1.25rem 0;
+          margin: 0.8rem 0;
           width: 100%;
         }
         
         .option-label {
           font-weight: 500;
           color: #333;
-          margin-bottom: 0.25rem;
+          margin-bottom: 0.2rem;
           word-break: break-word;
           font-size: 0.9em;
         }
@@ -84,6 +84,7 @@ export const RatingSlider = {
           background: #ddd;
           border-radius: 2px;
           outline: none;
+          margin: 0;
         }
         
         input[type="range"]::-webkit-slider-thumb {
@@ -100,12 +101,12 @@ export const RatingSlider = {
           font-weight: 400;
           color: #007AFF;
           font-size: 0.9em;
-          margin-top: 0.25rem;
+          margin-top: 0.2rem;
         }
         
         .other-input {
-          margin-top: 0.5rem;
-          padding: 0.2rem 0.6rem;
+          margin-top: 0.3rem;
+          padding: 0.2rem 0.5rem;
           border: 1px solid #ccc;
           border-radius: 4px;
           width: 100%;
@@ -116,13 +117,13 @@ export const RatingSlider = {
         
         .submit-btn {
           display: block;
-          margin: 1.5rem auto 0.75rem;
+          margin: 1rem auto 0.5rem;
           padding: 0.4rem 1.2rem;
           background: linear-gradient(135deg, #007AFF, #0063CC);
           color: #fff;
           border: none;
           border-radius: 6px;
-          font-size: 0.95em;
+          font-size: 0.9em;
           cursor: pointer;
         }
         
@@ -175,7 +176,7 @@ export const RatingSlider = {
 
         const otherInput = document.createElement('input');
         otherInput.type = 'text';
-        otherInput.placeholder = '请说明';
+        otherInput.placeholder = 'Pleass type your answer';
         otherInput.className = 'other-input';
 
         const updateDisplay = val => {
