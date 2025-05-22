@@ -63,82 +63,42 @@ export const MultipleChoice = {
       const style = document.createElement('style');
       style.textContent = `
         .multiple-choice-container {
-          width: auto;
-          max-width: 100%;
-          margin: 0;
           display: flex;
           flex-direction: column;
-          gap: 10px;
+          gap: 6px;              /* 更紧凑的行间距 */
           font-family: sans-serif;
-          font-size: inherit; /* 使用默认字体大小 */
+          font-size: 0.9rem;   /* 略小字体 */
         }
         .options-flow {
           display: flex;
           flex-wrap: wrap;
-          gap: 10px;
-          justify-items: center;
-          align-items: center;
-          min-height: 100px;
-          padding: 10px;
+          gap: 6px;              /* 选项间距更小 */
+          padding: 6px;
         }
         .option {
-          position: relative;
-          padding: 0.25rem 0.75rem; /* 更贴合文字的内边距 */
-          margin: 0;
+          padding: 0.2rem 0.6rem; /* 更小的内边距 */
           border: 1px solid #d2d2d7;
-          border-radius: 8px;
+          border-radius: 6px;
           cursor: pointer;
-          transition: all 0.2s ease;
-          background: transparent;
+          transition: 0.2s;
           max-width: 100%;
-          min-width: 0; /* 允许文本换行 */
+          min-width: 0;
         }
-        .option:hover {
-          background: #f0f0f0;
-        }
-        .option.selected {
-          background: #007AFF;
-          border-color: #007AFF;
-          color: #fff;
-        }
-        .option input {
-          opacity: 0;
-          position: absolute;
-        }
-        .option-text {
-          display: block;
-          line-height: 1;
-          white-space: normal; /* 自动换行 */
-          word-wrap: break-word;
-        }
+        .option.selected { background: #007AFF; border-color: #007AFF; color: #fff; }
+        .option-text { white-space: normal; word-wrap: break-word; line-height: 1.2; }
         .mc-form button[type="submit"] {
-          background: linear-gradient(135deg, #007AFF, #0063CC);
-          color: #fff;
-          border: none;
-          padding: 0.25rem 0.75rem; /* 更贴合文字 */
-          border-radius: 8px;
-          font-family: inherit;
-          font-size: inherit; /* 使用默认字体大小 */
-          cursor: pointer;
-          transition: all 0.2s ease;
-          display: block;
-          margin: 0 auto;
-          white-space: normal; /* 长文字自动换行 */
-          max-width: 100%;
+          padding: 0.2rem 0.6rem;
+          border-radius: 6px;
+          font-size: 0.9rem;
+          white-space: normal;
           word-wrap: break-word;
         }
         .mc-form button[type="submit"]:hover {
           transform: translateY(-1px);
-          box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+          box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
-        .mc-form button[type="submit"]:disabled {
-          background: #999;
-          cursor: not-allowed;
-        }
-        .submitted {
-          pointer-events: none;
-          opacity: 0.8;
-        }
+        .other-input input { font-size: 0.9rem; padding: 0.2rem; margin-top: 4px; }
+        .submitted { pointer-events: none; opacity: 0.7; }
       `;
       container.appendChild(style);
       element.appendChild(container);
