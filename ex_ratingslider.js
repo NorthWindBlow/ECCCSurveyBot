@@ -89,8 +89,8 @@ export const RatingSlider = {
         
         input[type="range"]::-webkit-slider-thumb {
           -webkit-appearance: none;
-          width: 14px;
-          height: 14px;
+          width: 18px;
+          height: 18px;
           background: #007AFF;
           border-radius: 50%;
           cursor: pointer;
