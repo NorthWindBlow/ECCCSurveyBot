@@ -1,5 +1,5 @@
 ﻿No,Branch,Type,Question,Options
-0,GeneralQuestion,Text,"Please enter your email address. Once your submission is successful, we’ll send you a $5 gift card as a reward.<br/>*Your information will remain confidential and will never be shared.*",
+0,GeneralQuestion,Text,"Please enter your email address. Once your submission is successful, we will send you a $5 gift card as a reward.<br/>*Your information will remain confidential and will never be shared.*",
 1,GeneralQuestion,SingleChoice,How old are you?,"[""Under 18"", ""18-24"", ""25-34"", ""35-44"", ""45-54"", ""55-64"", ""65 or older""]"
 2,GeneralQuestion,SingleChoice,What is the highest level of education you have completed?,"[""Less than high school"", ""High school diploma or equivalent"", ""College/CEGEP"", ""Bachelor’s degree"", ""Graduate or professional degree"", ""Prefer not to answer""]"
 3,GeneralQuestion,SingleChoice,Please specify your gender:,"[""Male"", ""Female"", ""Other"", ""Prefer not to answer""]"
