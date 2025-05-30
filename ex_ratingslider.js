@@ -209,21 +209,61 @@ export const RatingSlider = {
       submitButton.className = 'submit-btn';
       submitButton.textContent = 'Submit';
 
+      // submitButton.onclick = e => {
+      //   e.preventDefault();
+      //   const results = Array.from(container.querySelectorAll('.option-row')).map(row => {
+      //     const opt = row.querySelector('.option-label').textContent;
+      //     const slider = row.querySelector('input[type="range"]');
+      //     const val = parseInt(slider.value, 10);
+
+      //     const scaleLabels = Array.from({ length: parseInt(mapping[opt], 10) + 1 }, (_, i) => i);
+      //     const positions = scaleLabels.map((_, i) => Math.round((i / (scaleLabels.length - 1)) * 100));
+      //     const idx = findNearestIndex(val, positions);
+      //     const actualValue = scaleLabels[idx];
+
+      //     const entry = { option: opt, score: actualValue };
+      //     if (opt.trim().toLowerCase() === 'other' && actualValue > 0) {
+      //       entry.detail = row.querySelector('.other-input').value || '';
+      //     }
+      //     return entry;
+      //   });
       submitButton.onclick = e => {
         e.preventDefault();
-        const results = Array.from(container.querySelectorAll('.option-row')).map(row => {
+        // Validation: if "Other" is selected (score > 0), require input
+        const rows = container.querySelectorAll('.option-row');
+        for (const row of rows) {
+          const opt = row.querySelector('.option-label').textContent.trim().toLowerCase();
+          if (opt === 'other') {
+            const slider = row.querySelector('input[type="range"]');
+            const rawVal = parseInt(slider.value, 10);
+            const max = parseInt(mapping[row.querySelector('.option-label').textContent], 10);
+            const scaleLabels = Array.from({ length: max + 1 }, (_, i) => i);
+            const positions = scaleLabels.map((_, i) => Math.round((i / (scaleLabels.length - 1)) * 100));
+            const idx = findNearestIndex(rawVal, positions);
+            const actualValue = scaleLabels[idx];
+            if (actualValue > 0) {
+              const otherInputField = row.querySelector('.other-input');
+              if (!otherInputField.value.trim()) {
+                alert('Please provide a response for "Other".');
+                otherInputField.focus();
+                return;
+              }
+            }
+          }
+        }
+
+        // Gather results
+        const results = Array.from(rows).map(row => {
           const opt = row.querySelector('.option-label').textContent;
           const slider = row.querySelector('input[type="range"]');
           const val = parseInt(slider.value, 10);
-
           const scaleLabels = Array.from({ length: parseInt(mapping[opt], 10) + 1 }, (_, i) => i);
           const positions = scaleLabels.map((_, i) => Math.round((i / (scaleLabels.length - 1)) * 100));
           const idx = findNearestIndex(val, positions);
           const actualValue = scaleLabels[idx];
-
           const entry = { option: opt, score: actualValue };
           if (opt.trim().toLowerCase() === 'other' && actualValue > 0) {
-            entry.detail = row.querySelector('.other-input').value || '';
+            entry.detail = row.querySelector('.other-input').value;
           }
           return entry;
         });
