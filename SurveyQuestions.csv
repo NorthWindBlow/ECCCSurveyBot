@@ -1,6 +1,5 @@
 ﻿No,Branch,Type,Question,Options
 0,GeneralQuestion,SingleChoice,"**Consent Agreement**<br/>By participating in this survey, you agree to the following:<br/>- Your responses will be collected for research purposes only.<br/>- Personal information will remain confidential and will not be shared.<br/>- Some participants may wear *Tobii Pro Glasses 3* (eye-tracking). If so, video, audio, and gaze data will be recorded during the survey.<br/>- All data will be securely stored and used only for academic research.<br/>Participation is voluntary, and you may withdraw at any time.","[""I have read and agree to the terms above.""]"
-1,GeneralQuestion,Text,"Please enter your email address. Once your submission is successful, we’ll send you a $5 gift card as a reward.",
 2,GeneralQuestion,SingleChoice,How old are you?,"[""Under 18"", ""18-24"", ""25-34"", ""35-44"", ""45-54"", ""55-64"", ""65 or older""]"
 3,GeneralQuestion,SingleChoice,What is the highest level of education you have completed?,"[""Less than high school"", ""High school diploma or equivalent"", ""College/CEGEP"", ""Bachelor’s degree"", ""Graduate or professional degree"", ""Prefer not to answer""]"
 4,GeneralQuestion,SingleChoice,Please specify your gender:,"[""Male"", ""Female"", ""Other"", ""Prefer not to answer""]"
